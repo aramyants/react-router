@@ -1,5 +1,5 @@
+import React from 'react';
 import { Route, Routes } from 'react-router-dom';
-import { About } from './components/About.jsx';
 import { Admin } from './components/Admin.jsx';
 import { FeaturedProducts } from './components/FeaturedProducts.jsx';
 import { Home } from './components/Home.jsx';
@@ -11,6 +11,8 @@ import { Products } from './components/Products.jsx';
 import { SaleProducts } from './components/SaleProducts.jsx';
 import { UserDetails } from './components/UserDetails.jsx';
 import { Users } from './components/Users.jsx';
+// import { About } from './components/About.jsx';
+const LazyAbout = React.lazy(() => import('./components/About.jsx'));
 function App() {
   return (
     <>
@@ -18,7 +20,14 @@ function App() {
       {/* Define routes for the application */}
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/about" element={<About />} />
+        <Route
+          path="/about"
+          element={
+            <React.Suspense fallback={<div>Loading...</div>}>
+              <LazyAbout />
+            </React.Suspense>
+          }
+        />
         <Route path="/order-summary" element={<OrderSummary />} />
         <Route path="/products" element={<Products />}>
           <Route index element={<FeaturedProducts />} />
